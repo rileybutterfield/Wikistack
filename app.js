@@ -14,9 +14,9 @@ app.use('/wiki', wikiRouter);
 app.use('/users', usersRouter);
 
 app.get('/', (req, res, next) => {
-
     res.send(layout(''));
 })
+
 const { db, Page, User } = require('./models');
 
 const PORT = 3000;
@@ -28,7 +28,7 @@ db.authenticate()
 
   const init = async () => {
     await db.sync();
-    //^^this is important!!! 
+    //^^this is important!!!
 
 
     // make sure that you have a PORT constant
@@ -36,5 +36,5 @@ db.authenticate()
       console.log(`Server is listening on port ${PORT}!`);
     });
   }
-  
+
   init();

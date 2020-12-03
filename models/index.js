@@ -11,39 +11,46 @@ const Page = db.define('Page', {
     title: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'Teddy Is A Very Good Boy'
     },
     slug: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'Teddy-is-great'
     },
     content: {
         type: Sequelize.TEXT,
         allowNull: false,
-        defaultValue: 'I mean, obviously!'
     },
     status: {
         type: Sequelize.ENUM('open', 'closed')
     }
 })
 
+Page.beforeValidate((page) => {
+    if (!page.slug) {
+      page.slug = page.title.replace(/\s/g, "_").replace(/\W/g, "").toLowerCase();
+    }
+  });
+
+//   Page.beforeValidate((page) => {
+//     page.tags = req.body.tags.split(" ");
+//   });
+
 const User = db.define('User', {
     name: {
-        type: Sequelize.STRING, 
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'Teddy'
     },
     email: {
-        type: Sequelize.STRING, 
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
             isEmail: true
         },
-        defaultValue: 'Teddy@cuteDogs.com'
     }
 })
 
+
+Page.belongsTo(User, { as: 'author' });
 
 module.exports = {db, Page, User}
 
